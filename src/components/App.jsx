@@ -131,6 +131,21 @@ class App extends Component {
     };
   }
 
+  componentDidMount() {
+    const storedContacts = localStorage.getItem('contacts');
+    console.log('Stored Contacts on Mount:', storedContacts);
+    if (storedContacts) {
+      this.setState({ contacts: JSON.parse(storedContacts) });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+      console.log('Contacts Saved to Local Storage:', this.state.contacts);
+    }
+  }
+
   handleAddContact = newContact => {
     this.setState(prevState => ({
       contacts: [...prevState.contacts, newContact],
